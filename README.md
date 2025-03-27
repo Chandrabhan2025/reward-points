@@ -37,7 +37,7 @@ The application includes a global exception handler to manage errors gracefully.
 
 ## Database Schema
 ### Transactions Table
-| Coulmn | Type     | Constraint          |
+| Column | Type     | Constraint          |
 | :-------- | :------- | :------------------------- |
 | `transactionId` | `BIGINT` | Primary Key, Auto-generated |
 | `customerId` | `BIGINT` | Not Null |
@@ -45,5 +45,102 @@ The application includes a global exception handler to manage errors gracefully.
 | `rewardPoints` | `BIGINT` | Computed based on transaction amount |
 | `date` | `DATE` | Not Null, Past or Present |
 
+## API Result
+
+### Post - http://localhost:8081/transaction/add
+#### Body
+```json
+{
+    "customerId": 2,
+    "amount": 150.55,
+    "date": "2025-03-23"
+}
+```
+#### Response
+```json
+{
+    Transaction is successfully added.
+}
+```
+
+### Get - http://localhost:8081/transaction/get/1
+#### Response
+```json
+[
+    {
+        "transactionId": 1,
+        "customerId": 1,
+        "amount": 120.0,
+        "rewardPoints": 90,
+        "date": "2025-03-23"
+    },
+    {
+        "transactionId": 2,
+        "customerId": 1,
+        "amount": 100.0,
+        "rewardPoints": 50,
+        "date": "2025-03-23"
+    },
+    {
+        "transactionId": 3,
+        "customerId": 1,
+        "amount": 50.0,
+        "rewardPoints": 0,
+        "date": "2025-03-23"
+    },
+    {
+        "transactionId": 52,
+        "customerId": 1,
+        "amount": 150.0,
+        "rewardPoints": 150,
+        "date": "2025-03-23"
+    }
+]
+```
+
+### Get - http://localhost:8081/transaction/getByMonth/1
+#### Response
+```json
+{
+    "March 2025": 290,
+    "February 2025": 0,
+    "January 2025": 0
+}
+```
+
+### Get - http://localhost:8081/transaction/getByDate/1/2025-01-01/2025-03-24
+#### Response
+```json
+{
+    290
+}
+```
+
+### Get - http://localhost:8081/transaction/getAll
+#### Response
+```json
+[
+    {
+        "customerId": 1,
+        "rewardPoints": 290,
+        "totalAmountSpent": 420.0
+    },
+    {
+        "customerId": 2,
+        "rewardPoints": 452,
+        "totalAmountSpent": 451.65000000000003
+    }
+]
+```
+
+### Get - http://localhost:8081/transaction/getRewardsByParticularMonth/1/3/2025
+#### Response
+```json
+{
+    "customerId": 1,
+    "rewardPoints": 290,
+    "totalAmountSpent": 420.0
+}
+```
 
 
